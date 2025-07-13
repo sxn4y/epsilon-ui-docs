@@ -1,9 +1,58 @@
-import Image from "next/image";
+'use client'
+
+import Button from "@/components/ui/button";
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      
+    <div className="flex justify-center space-around h-screen">
+      <Button
+        onClick={() => void 0}
+        className="self-center hover:shadow-lg font-bold m-2"
+        variant="primary"
+        parallax
+      >
+        Primary
+      </Button>
+      <Button
+        onClick={() => void 0}
+        className="self-center hover:shadow-lg font-bold m-2"
+        variant="secondary"
+        parallax
+      >
+        Secondary
+      </Button>
+      <Button
+        onClick={() => void 0}
+        className="self-center hover:shadow-lg font-bold m-2"
+        variant="outline"
+        parallax
+      >
+        Outline
+      </Button>
+      <Button
+        onClick={() => void 0}
+        className="self-center hover:shadow-lg font-bold m-2"
+        variant="danger"
+        parallax
+      >
+        Danger
+      </Button>
+      <Button
+        onClick={() => void 0}
+        className="self-center hover:shadow-lg font-bold m-2"
+        variant="link"
+        parallax
+      >
+        Link
+      </Button>
+      <Button
+        onClick={() => void 0}
+        className="self-center hover:shadow-lg font-bold m-2"
+        variant="fancy"
+        parallax
+      >
+        Fancy
+      </Button>
     </div>
   );
 }
