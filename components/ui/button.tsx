@@ -144,33 +144,31 @@ const Button: React.FC<ButtonProps> = ({
       button.addEventListener("mouseleave", handleMouseLeave);
     }
 
-    if (scrollReveal) {
-      let tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: button,
-          start: `top ${percent}%`,
-          end: "bottom +=50px",
-          once: false,
-        },
-      });
+    let tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: button,
+        start: `top ${percent}%`,
+        end: "bottom +=50px",
+        once: false,
+      },
+    });
 
-      tl.set(button, {
-        [axis]: offset,
-        scale,
-        opacity: opacity,
-        rotate: rotation,
-      });
+    tl.set(button, {
+      [axis]: offset,
+      scale,
+      opacity: opacity,
+      rotate: rotation,
+    });
 
-      tl.to(button, {
-        [axis]: 0,
-        scale: 1,
-        opacity: 1,
-        rotate: 0,
-        duration,
-        ease,
-        delay,
-      });
-    }
+    tl.to(button, {
+      [axis]: 0,
+      scale: 1,
+      opacity: 1,
+      rotate: 0,
+      duration,
+      ease,
+      delay,
+    });
 
     if (parallax)
       return () => {
