@@ -79,7 +79,7 @@ const Button: React.FC<ButtonProps> = ({
   onMouseLeave,
   onFocus,
 
-  variant = "primary"
+  variant = "primary",
 }) => {
   const buttonRef = React.useRef<HTMLButtonElement>(null);
   const axis = direction === "hor" ? "x" : "y";
@@ -114,7 +114,8 @@ const Button: React.FC<ButtonProps> = ({
 
   useEffect(() => {
     const button = buttonRef.current;
-    let handleMouseMove = (e: MouseEvent)=>{}, handleMouseLeave = ()=>{};
+    let handleMouseMove = (e: MouseEvent) => {},
+      handleMouseLeave = () => {};
 
     if (!button) return;
 
