@@ -87,28 +87,28 @@ const Button: React.FC<ButtonProps> = ({
   const rotation = reverse ? -angle : angle;
   const percent = (1 - threshold) * 100;
   let inBuiltClass =
-    "w-fit h-fit px-3 py-1.5 rounded-xl text-sm text-(--background) bg-(--foreground) font-medium overflow-hidden glow-effect outline-(--foreground)/50 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-(--foreground)/90 focus:outline-3";
+    "w-fit h-fit px-3 py-1.5 rounded-xl text-sm text-(--background) bg-(--foreground) font-medium overflow-hidden outline-(--foreground)/50 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-(--foreground)/90 focus:outline-3";
 
   switch (variant) {
     case "secondary":
       inBuiltClass =
-        "w-fit h-fit px-3 py-1.5 rounded-xl text-sm text-(--foreground) bg-(--foreground)/10 font-medium overflow-hidden glow-effect outline-(--foreground)/5 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-(--foreground)/9 focus:outline-3";
+        "w-fit h-fit px-3 py-1.5 rounded-xl text-sm text-(--foreground) bg-(--foreground)/10 font-medium overflow-hidden outline-(--foreground)/5 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-(--foreground)/9 focus:outline-3";
       break;
     case "outline":
       inBuiltClass =
-        "w-fit h-fit px-3 py-1.5 rounded-xl text-sm text-(--foreground) border border-(--foreground)/20 bg-(--foreground)/10 font-medium overflow-hidden glow-effect outline-(--foreground)/7 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-(--foreground)/9 focus:outline-3";
+        "w-fit h-fit px-3 py-1.5 rounded-xl text-sm text-(--foreground) border border-(--foreground)/20 bg-(--foreground)/10 font-medium overflow-hidden outline-(--foreground)/7 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-(--foreground)/9 focus:outline-3";
       break;
     case "danger":
       inBuiltClass =
-        "w-fit h-fit px-3 py-1.5 rounded-xl text-sm text-(--foreground) bg-red-800 font-medium overflow-hidden glow-effect outline-red-800/50 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-red-800/90 focus:outline-3";
+        "w-fit h-fit px-3 py-1.5 rounded-xl text-sm text-(--foreground) bg-red-800 font-medium overflow-hidden outline-red-800/50 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-red-800/90 focus:outline-3";
       break;
     case "link":
       inBuiltClass =
-        "w-fit h-fit px-3 py-1.5 rounded-xl text-sm text-(--foreground) font-medium overflow-hidden glow-effect outline-red-800/50 outline-0 delay-25 transition-[outline] transition-[background] transition-[text-decoration] underline-offset-4 hover:underline";
+        "w-fit h-fit px-3 py-1.5 rounded-xl text-sm text-(--foreground) font-medium overflow-hidden outline-red-800/50 outline-0 delay-25 transition-[outline] transition-[background] transition-[text-decoration] underline-offset-4 hover:underline";
       break;
     case "fancy":
       inBuiltClass =
-        "w-fit h-fit px-3 py-1.5 rounded-xl text-sm text-(--foreground) border border-(--foreground)/20 bg-linear-to-b from-(--foreground)/13 to-(--foreground)/6 font-medium overflow-hidden glow-effect outline-(--foreground)/7 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-(--foreground)/9 focus:outline-3";
+        "w-fit h-fit px-3 py-1.5 rounded-xl text-sm text-(--foreground) border border-(--foreground)/20 bg-linear-to-b from-(--foreground)/13 to-(--foreground)/6 font-medium overflow-hidden outline-(--foreground)/7 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-(--foreground)/9 focus:outline-3";
       break;
   }
 
@@ -144,33 +144,33 @@ const Button: React.FC<ButtonProps> = ({
       button.addEventListener("mouseleave", handleMouseLeave);
     }
 
-    const el = buttonRef.current;
-    if (!el) return;
-    let tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: el,
-        start: `top ${percent}%`,
-        end: "bottom +=50px",
-        once: false,
-      },
-    });
+    if (scrollReveal) {
+      let tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: button,
+          start: `top ${percent}%`,
+          end: "bottom +=50px",
+          once: false,
+        },
+      });
 
-    tl.set(el, {
-      [axis]: offset,
-      scale,
-      opacity: opacity,
-      rotate: rotation,
-    });
+      tl.set(button, {
+        [axis]: offset,
+        scale,
+        opacity: opacity,
+        rotate: rotation,
+      });
 
-    tl.to(el, {
-      [axis]: 0,
-      scale: 1,
-      opacity: 1,
-      rotate: 0,
-      duration,
-      ease,
-      delay,
-    });
+      tl.to(button, {
+        [axis]: 0,
+        scale: 1,
+        opacity: 1,
+        rotate: 0,
+        duration,
+        ease,
+        delay,
+      });
+    }
 
     if (parallax)
       return () => {
@@ -196,7 +196,7 @@ const Button: React.FC<ButtonProps> = ({
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       onFocus={onFocus}
-      className={`${className} ${inBuiltClass}`}
+      className={`${className} ${parallax ? "glow-effect" : "null"} ${inBuiltClass}`}
       ref={buttonRef}
     >
       {children}

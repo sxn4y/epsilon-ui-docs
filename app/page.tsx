@@ -41,7 +41,6 @@ export default function Home() {
         onClick={() => void 0}
         className="self-center hover:shadow-lg font-bold m-2"
         variant="link"
-        parallax
       >
         Link
       </Button>
