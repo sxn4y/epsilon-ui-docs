@@ -32,6 +32,14 @@ export default function Home() {
       <Button
         onClick={() => void 0}
         className="self-center hover:shadow-lg font-bold m-2"
+        variant="positive"
+        parallax
+      >
+        Positive
+      </Button>
+      <Button
+        onClick={() => void 0}
+        className="self-center hover:shadow-lg font-bold m-2"
         variant="danger"
         parallax
       >

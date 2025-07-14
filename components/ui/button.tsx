@@ -1,28 +1,12 @@
 "use client";
 
-import React, { ReactNode, use, useEffect } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
+import React, { ReactNode, useEffect } from "react";
 
 export interface ButtonProps {
   children?: ReactNode;
   className?: string;
   parallax?: boolean;
   tiltFactor?: number;
-
-  scrollReveal?: boolean;
-  delay?: number;
-  duration?: number;
-  opacity?: number;
-  scale?: number;
-  angle?: number;
-  threshold?: number;
-  distance?: number;
-  reverse?: boolean;
-  ease?: string;
-  direction?: "hor" | "ver";
 
   autoFocus?: boolean;
   command?: string;
@@ -42,7 +26,14 @@ export interface ButtonProps {
   onMouseLeave?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   onFocus?: (e: React.FocusEvent<HTMLButtonElement>) => void;
 
-  variant?: "primary" | "secondary" | "outline" | "danger" | "link" | "fancy";
+  variant?:
+    | "primary"
+    | "secondary"
+    | "outline"
+    | "positive"
+    | "danger"
+    | "link"
+    | "fancy";
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -50,18 +41,6 @@ const Button: React.FC<ButtonProps> = ({
   className = "w-fit h-[100px]",
   parallax = false,
   tiltFactor = 30,
-
-  scrollReveal = false,
-  delay = 0,
-  duration = 0.8,
-  opacity = "0",
-  scale = 1,
-  angle = 0,
-  threshold = 0.1,
-  distance = 100,
-  reverse = false,
-  ease = "power3.out",
-  direction = "ver",
 
   autoFocus = false,
   disabled = false,
@@ -82,33 +61,40 @@ const Button: React.FC<ButtonProps> = ({
   variant = "primary",
 }) => {
   const buttonRef = React.useRef<HTMLButtonElement>(null);
-  const axis = direction === "hor" ? "x" : "y";
-  const offset = reverse ? -distance : distance;
-  const rotation = reverse ? -angle : angle;
-  const percent = (1 - threshold) * 100;
+  const isTouchDevice = () => {
+    if (typeof window !== "undefined") {
+      return "ontouchstart" in window || navigator.maxTouchPoints > 0;
+    }
+    return false;
+  };
+
   let inBuiltClass =
-    "w-fit h-fit px-3 py-1.5 rounded-xl text-sm text-(--background) bg-(--foreground) font-medium overflow-hidden outline-(--foreground)/50 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-(--foreground)/90 focus:outline-3";
+    "w-fit h-fit px-3 py-1.5 rounded-(--s2) text-(length:--s3) text-(--background) bg-(--foreground) font-medium overflow-hidden outline-(--foreground)/50 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-(--foreground)/90 focus:outline-3";
 
   switch (variant) {
     case "secondary":
       inBuiltClass =
-        "w-fit h-fit px-3 py-1.5 rounded-xl text-sm text-(--foreground) bg-(--foreground)/10 font-medium overflow-hidden outline-(--foreground)/5 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-(--foreground)/9 focus:outline-3";
+        "w-fit h-fit px-3 py-1.5 rounded-(--s2) text-(length:--s3) text-(--foreground) bg-(--foreground)/10 font-medium overflow-hidden outline-(--foreground)/5 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-(--foreground)/9 focus:outline-3";
       break;
     case "outline":
       inBuiltClass =
-        "w-fit h-fit px-3 py-1.5 rounded-xl text-sm text-(--foreground) border border-(--foreground)/20 bg-(--foreground)/10 font-medium overflow-hidden outline-(--foreground)/7 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-(--foreground)/9 focus:outline-3";
+        "w-fit h-fit px-3 py-1.5 rounded-(--s2) text-(length:--s3) text-(--foreground) border border-(--foreground)/20 bg-(--foreground)/10 font-medium overflow-hidden outline-(--foreground)/7 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-(--foreground)/9 focus:outline-3";
+      break;
+    case "positive":
+      inBuiltClass =
+        "w-fit h-fit px-3 py-1.5 rounded-(--s2) text-(length:--s3) text-(--foreground) bg-blue-500 dark:bg-blue-800 font-medium overflow-hidden outline-blue-500/50 dark:outline-blue-800/50 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-blue-500/90 dark:hover:bg-blue-800/90 focus:outline-3";
       break;
     case "danger":
       inBuiltClass =
-        "w-fit h-fit px-3 py-1.5 rounded-xl text-sm text-(--foreground) bg-red-800 font-medium overflow-hidden outline-red-800/50 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-red-800/90 focus:outline-3";
+        "w-fit h-fit px-3 py-1.5 rounded-(--s2) text-(length:--s3) text-(--foreground) bg-red-500 dark:bg-red-800 font-medium overflow-hidden outline-red-500/50 dark:outline-red-800/50 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-red-500/90 dark:hover:bg-red-800/90 focus:outline-3";
       break;
     case "link":
       inBuiltClass =
-        "w-fit h-fit px-3 py-1.5 rounded-xl text-sm text-(--foreground) font-medium overflow-hidden outline-red-800/50 outline-0 delay-25 transition-[outline] transition-[background] transition-[text-decoration] underline-offset-4 hover:underline";
+        "w-fit h-fit px-3 py-1.5 rounded-(--s2) text-(length:--s3) text-(--foreground) font-medium overflow-hidden outline-0 delay-25 transition-[background] transition-[text-decoration] underline-offset-4 hover:underline";
       break;
     case "fancy":
       inBuiltClass =
-        "w-fit h-fit px-3 py-1.5 rounded-xl text-sm text-(--foreground) border border-(--foreground)/20 bg-linear-to-b from-(--foreground)/13 to-(--foreground)/6 font-medium overflow-hidden outline-(--foreground)/7 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-(--foreground)/9 focus:outline-3";
+        "w-fit h-fit px-3 py-1.5 rounded-(--s2) text-(length:--s3) text-(--foreground) border border-(--foreground)/20 bg-linear-to-b from-(--foreground)/13 to-(--foreground)/6 font-medium overflow-hidden outline-(--foreground)/7 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-(--foreground)/9 focus:outline-3";
       break;
   }
 
@@ -119,7 +105,7 @@ const Button: React.FC<ButtonProps> = ({
 
     if (!button) return;
 
-    if (parallax) {
+    if (parallax && !isTouchDevice()) {
       handleMouseMove = (e: MouseEvent) => {
         const rect = button.getBoundingClientRect();
         const x = e.clientX - rect.left;
@@ -144,37 +130,10 @@ const Button: React.FC<ButtonProps> = ({
       button.addEventListener("mouseleave", handleMouseLeave);
     }
 
-    let tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: button,
-        start: `top ${percent}%`,
-        end: "bottom +=50px",
-        once: false,
-      },
-    });
-
-    tl.set(button, {
-      [axis]: offset,
-      scale,
-      opacity: opacity,
-      rotate: rotation,
-    });
-
-    tl.to(button, {
-      [axis]: 0,
-      scale: 1,
-      opacity: 1,
-      rotate: 0,
-      duration,
-      ease,
-      delay,
-    });
-
-    if (parallax)
-      return () => {
-        button.removeEventListener("mousemove", handleMouseMove);
-        button.removeEventListener("mouseleave", handleMouseLeave);
-      };
+    return () => {
+      button.removeEventListener("mousemove", handleMouseMove);
+      button.removeEventListener("mouseleave", handleMouseLeave);
+    };
   });
 
   return (
@@ -194,7 +153,9 @@ const Button: React.FC<ButtonProps> = ({
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       onFocus={onFocus}
-      className={`${className} ${parallax ? "glow-effect" : "null"} ${inBuiltClass}`}
+      className={`${className} ${
+        parallax ? "glow-effect" : "no-glow-effect"
+      } ${inBuiltClass}`}
       ref={buttonRef}
     >
       {children}

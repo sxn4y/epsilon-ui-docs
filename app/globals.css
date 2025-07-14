@@ -3,6 +3,12 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --s1: .25rem;
+  --s2: .5rem;
+  --s3: .75rem;
+  --s4: 1rem;
+  --s5: 1.5rem;
+  --s6: 2rem;
 }
 
 @theme inline {
@@ -43,9 +49,16 @@ body {
   );
   opacity: 0;
   transition: opacity 0.2s;
-  border-radius: --radius;
 }
 
 .glow-effect:hover .glow-container {
   opacity: 1;
+}
+
+.no-glow-effect .glow-container {
+  position: absolute;
+  height: 0;
+  width: 0;
+  background: none;
+  transition: none;
 }
