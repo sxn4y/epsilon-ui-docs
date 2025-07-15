@@ -20,6 +20,7 @@ interface sRevealProps {
   reverse?: boolean;
   ease?: string;
   direction?: "hor" | "ver";
+  inline?: boolean;
 }
 
 const SReveal: React.FC<sRevealProps> = ({
@@ -37,6 +38,7 @@ const SReveal: React.FC<sRevealProps> = ({
   reverse = false,
   ease = "power3.out",
   direction = "ver",
+  inline = false,
 }) => {
   const ref = useRef(null);
   const axis = direction === "hor" ? "x" : "y";
@@ -47,25 +49,33 @@ const SReveal: React.FC<sRevealProps> = ({
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    let tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: el,
-        start: `top ${percent}%`,
-        end: `bottom ${100 - percent}%`,
-        onEnter: () => {
-          tl.restart();
-        },
-        onLeave: () => {
-          tl.pause(0);
-        },
-        onEnterBack: () => {
-          tl.restart();
-        },
-        onLeaveBack: () => {
-          tl.pause(0);
-        },
-      },
-    });
+    let tl = once
+      ? gsap.timeline({
+          scrollTrigger: {
+            trigger: el,
+            start: `top ${percent}%`,
+            end: `bottom +=50px`,
+          },
+        })
+      : gsap.timeline({
+          scrollTrigger: {
+            trigger: el,
+            start: `top ${percent}%`,
+            end: `bottom +=50px`,
+            onEnter: () => {
+              tl.restart();
+            },
+            onLeave: () => {
+              tl.pause(0);
+            },
+            onEnterBack: () => {
+              tl.restart();
+            },
+            onLeaveBack: () => {
+              tl.pause(0);
+            },
+          },
+        });
 
     tl.set(el, {
       [axis]: offset,
@@ -85,5 +95,7 @@ const SReveal: React.FC<sRevealProps> = ({
     });
   });
 
-  return <div ref={ref} className={className}>{children}</div>;
+  return <div ref={ref} className={`${className} ${inline ? "inline" : "block"}`}>{children}</div>;
 };
+
+export default SReveal;

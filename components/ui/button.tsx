@@ -1,6 +1,7 @@
 "use client";
 
 import React, { ReactNode, useEffect } from "react";
+import "./epsilon.css";
 
 export interface ButtonProps {
   children?: ReactNode;
@@ -40,7 +41,7 @@ const Button: React.FC<ButtonProps> = ({
   children,
   className = "w-fit h-[100px]",
   parallax = false,
-  tiltFactor = 30,
+  tiltFactor = 20,
 
   autoFocus = false,
   disabled = false,
@@ -67,6 +68,10 @@ const Button: React.FC<ButtonProps> = ({
     }
     return false;
   };
+
+  if (isTouchDevice()) {
+    tiltFactor = 0;
+  }
 
   let inBuiltClass =
     "w-fit h-fit px-3 py-1.5 rounded-(--s2) text-(length:--s3) text-(--background) bg-(--foreground) font-medium overflow-hidden outline-(--foreground)/50 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-(--foreground)/90 focus:outline-3";
@@ -105,7 +110,7 @@ const Button: React.FC<ButtonProps> = ({
 
     if (!button) return;
 
-    if (parallax && !isTouchDevice()) {
+    if (parallax) {
       handleMouseMove = (e: MouseEvent) => {
         const rect = button.getBoundingClientRect();
         const x = e.clientX - rect.left;
