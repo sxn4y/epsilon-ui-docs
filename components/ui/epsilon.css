@@ -1,21 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
   --s1: .25rem;
   --s2: .5rem;
   --s3: .75rem;
   --s4: 1rem;
   --s5: 1.5rem;
   --s6: 2rem;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 .glow-effect {

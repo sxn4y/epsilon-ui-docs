@@ -3,6 +3,7 @@
 import React, { ReactNode, useEffect, useRef } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
+
 gsap.registerPlugin(ScrollTrigger);
 
 interface layoutProps {
@@ -38,7 +39,7 @@ const ELayout: React.FC<layoutProps> = ({
 
   duration = 0.8,
   delay = 0,
-  opacity = "0.2",
+  opacity = 0,
   scale = 1,
   angle = 0,
   threshold = 0.1,
@@ -46,7 +47,7 @@ const ELayout: React.FC<layoutProps> = ({
   reverse = false,
   ease = "power3.out",
   direction = "ver",
-  stagger = 0.4,
+  stagger = 0,
   staggerFrom = "start",
 }) => {
   const ref = useRef(null);
@@ -58,25 +59,13 @@ const ELayout: React.FC<layoutProps> = ({
   useEffect(() => {
     if (reveal) {
       const el =
-        document.querySelector(".epsilon-sidebar, .epsilon-contentbar");
+        document.querySelectorAll(".epsilon-layout .epsilon-sublayout");
       if (!el) return;
       let tl = gsap.timeline({
         scrollTrigger: {
           trigger: el,
           start: `top ${percent}%`,
           end: `bottom +=50px`,
-          onEnter: () => {
-            tl.restart();
-          },
-          onLeave: () => {
-            tl.pause(0);
-          },
-          onEnterBack: () => {
-            tl.restart();
-          },
-          onLeaveBack: () => {
-            tl.pause(0);
-          },
         },
       });
 
@@ -103,7 +92,7 @@ const ELayout: React.FC<layoutProps> = ({
     }
   });
   return (
-    <div className={`w-full h-full epsilon-layout flex flex-row ${className}`}>
+    <div className={`w-full h-full overflow-hidden epsilon-layout flex flex-row ${className}`}>
       {children}
     </div>
   );
@@ -117,8 +106,8 @@ const ESidebar: React.FC<sidebarProps> = ({
   return (
     <div
       className={`${
-        side === "left" ? "border-e" : "border-s justify-self-center"
-      } border-(--foreground)/30 bg-(--background) epsilon-sidebar ${className}`}
+        side === "left" ? "border-e" : "border-s ml-auto"
+      } w-100 border-(--foreground)/30 bg-(--foreground)/4 opacity-0 p-4 epsilon-sublayout ${className}`}
     >
       {children}
     </div>
@@ -127,7 +116,7 @@ const ESidebar: React.FC<sidebarProps> = ({
 
 const EContentbar: React.FC<layoutProps> = ({children, className}) => {
   return (
-    <div className="epsilon-contentbar flex-1 flex flex-row grow-100">
+    <div className="w-full flex opacity-0 p-4 epsilon-sublayout">
       {children}
     </div>
   );
