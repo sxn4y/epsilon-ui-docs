@@ -74,32 +74,32 @@ const Button: React.FC<ButtonProps> = ({
   }
 
   let inBuiltClass =
-    "w-fit h-fit px-3 py-1.5 rounded-(--s2) text-(length:--s3) text-(--background) bg-(--foreground) font-medium overflow-hidden outline-(--foreground)/50 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-(--foreground)/90 focus:outline-3";
+    "px-3 py-1.5 rounded-(--s2)  text-(--background) bg-(--foreground) outline-(--foreground)/50 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-(--foreground)/90 focus:outline-3";
 
   switch (variant) {
     case "secondary":
       inBuiltClass =
-        "w-fit h-fit px-3 py-1.5 rounded-(--s2) text-(length:--s3) text-(--foreground) bg-(--foreground)/10 font-medium overflow-hidden outline-(--foreground)/5 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-(--foreground)/9 focus:outline-3";
+        "px-3 py-1.5 rounded-(--s2) text-(--foreground) bg-(--foreground)/10 outline-(--foreground)/5 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-(--foreground)/9 focus:outline-3";
       break;
     case "outline":
       inBuiltClass =
-        "w-fit h-fit px-3 py-1.5 rounded-(--s2) text-(length:--s3) text-(--foreground) border border-(--foreground)/20 bg-(--foreground)/10 font-medium overflow-hidden outline-(--foreground)/7 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-(--foreground)/9 focus:outline-3";
+        "px-3 py-1.5 rounded-(--s2) text-(--foreground) border border-(--foreground)/20 bg-(--foreground)/10 outline-(--foreground)/7 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-(--foreground)/9 focus:outline-3";
       break;
     case "positive":
       inBuiltClass =
-        "w-fit h-fit px-3 py-1.5 rounded-(--s2) text-(length:--s3) text-(--foreground) bg-blue-500 dark:bg-blue-800 font-medium overflow-hidden outline-blue-500/50 dark:outline-blue-800/50 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-blue-500/90 dark:hover:bg-blue-800/90 focus:outline-3";
+        "px-3 py-1.5 rounded-(--s2) text-(--foreground) bg-blue-500 dark:bg-blue-800 outline-blue-500/50 dark:outline-blue-800/50 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-blue-500/90 dark:hover:bg-blue-800/90 focus:outline-3";
       break;
     case "danger":
       inBuiltClass =
-        "w-fit h-fit px-3 py-1.5 rounded-(--s2) text-(length:--s3) text-(--foreground) bg-red-500 dark:bg-red-800 font-medium overflow-hidden outline-red-500/50 dark:outline-red-800/50 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-red-500/90 dark:hover:bg-red-800/90 focus:outline-3";
+        "px-3 py-1.5 rounded-(--s2) text-(--foreground) bg-red-500 dark:bg-red-800 outline-red-500/50 dark:outline-red-800/50 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-red-500/90 dark:hover:bg-red-800/90 focus:outline-3";
       break;
     case "link":
       inBuiltClass =
-        "w-fit h-fit px-3 py-1.5 rounded-(--s2) text-(length:--s3) text-(--foreground) font-medium overflow-hidden outline-0 delay-25 transition-[background] transition-[text-decoration] underline-offset-4 hover:underline";
+        "px-3 py-1.5 rounded-(--s2) text-(--foreground) outline-0 delay-25 transition-[background] transition-[text-decoration] underline-offset-4 hover:underline";
       break;
     case "fancy":
       inBuiltClass =
-        "w-fit h-fit px-3 py-1.5 rounded-(--s2) text-(length:--s3) text-(--foreground) border border-(--foreground)/20 bg-linear-to-b from-(--foreground)/13 to-(--foreground)/6 font-medium overflow-hidden outline-(--foreground)/7 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-(--foreground)/9 focus:outline-3";
+        "px-3 py-1.5 rounded-(--s2) text-(--foreground) border border-(--foreground)/20 bg-linear-to-b from-(--foreground)/10 to-(--foreground)/6 outline-(--foreground)/7 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-(--foreground)/9 focus:outline-3";
       break;
   }
 
@@ -158,9 +158,9 @@ const Button: React.FC<ButtonProps> = ({
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       onFocus={onFocus}
-      className={`${className} ${
+      className={`${
         parallax ? "glow-effect" : "no-glow-effect"
-      } ${inBuiltClass}`}
+      } ${inBuiltClass} h-fit font-medium text-(length:--s3) overflow-hidden ${className}`}
       ref={buttonRef}
     >
       {children}

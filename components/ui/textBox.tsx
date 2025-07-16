@@ -22,7 +22,12 @@ export interface TextBoxProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
 
-  variant?: "default" | "email" | "password" | "search";
+  type?: "default" | "email" | "password" | "search";
+  variant?:
+    | "primary"
+    | "secondary"
+    | "outline"
+    | "fancy";
 }
 
 const TextBox: React.FC<TextBoxProps> = ({
@@ -43,7 +48,8 @@ const TextBox: React.FC<TextBoxProps> = ({
   onChange,
   onFocus,
 
-  variant = "default",
+  type = "default",
+  variant = "primary",
 }) => {
   const textBoxRef = React.useRef<HTMLInputElement>(null);
   const isTouchDevice = () => {
@@ -58,7 +64,23 @@ const TextBox: React.FC<TextBoxProps> = ({
   }
 
   let inBuiltClass =
-    "px-3 py-1.5 rounded-(--s2) text-(length:--s3) text-(--foreground) bg-(--foreground)/15 font-medium overflow-hidden outline-(--foreground)/7.5 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-(--foreground)/9 focus:outline-3";
+    "px-3 py-1.5 rounded-(--s2) text-(length:--s3) text-(--background) bg-(--foreground) font-medium overflow-hidden outline-(--foreground)/50 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-(--foreground)/90 focus:outline-3";
+
+  switch (variant) {
+    case "secondary":
+      inBuiltClass =
+        "px-3 py-1.5 rounded-(--s2) text-(length:--s3) text-(--foreground) bg-(--foreground)/10 font-medium overflow-hidden outline-(--foreground)/5 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-(--foreground)/9 focus:outline-3";
+      break;
+    case "outline":
+      inBuiltClass =
+        "px-3 py-1.5 rounded-(--s2) text-(length:--s3) text-(--foreground) border border-(--foreground)/20 bg-(--foreground)/10 font-medium overflow-hidden outline-(--foreground)/7 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-(--foreground)/9 focus:outline-3";
+      break;
+      break;
+    case "fancy":
+      inBuiltClass =
+        "px-3 py-1.5 rounded-(--s2) text-(length:--s3) text-(--foreground) border border-(--foreground)/20 bg-linear-to-b from-(--foreground)/10 to-(--foreground)/6 font-medium overflow-hidden outline-(--foreground)/7 outline-0 delay-25 transition-[outline] transition-[background] hover:bg-(--foreground)/9 focus:outline-3";
+      break;
+  }
 
   useEffect(() => {
     const textBox = textBoxRef.current;

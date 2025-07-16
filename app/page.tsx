@@ -4,23 +4,28 @@ import Button from "@/components/ui/button";
 import SReveal from "@/components/ui/sReveal";
 import { ELayout, ESidebar, EContentbar } from "@/components/ui/eLayout";
 import TextBox from "@/components/ui/textBox";
+import { GoSearch } from "react-icons/go";
 
 export default function Home() {
   return (
     <ELayout reveal={true} stagger={0.2} staggerFrom="end">
       <ESidebar>
-        <form className="flex gap-2">
-          <TextBox id="test"/>
-          <Button variant="secondary" parallax type="submit">
+        <form className="flex gap-2 items-start">
+          <TextBox variant="fancy" name="test" placeholder="Search..." />
+          <Button variant="fancy" className="" type="submit">
             Submit
           </Button>
         </form>
       </ESidebar>
       <EContentbar>
-        <SReveal delay={0.5} opacity={0} className="flex flex-wrap justify-center h-full w-full">
+        <SReveal
+          delay={0.5}
+          opacity={0}
+          className="flex flex-wrap items-center justify-center h-full w-full"
+        >
           <Button
             onClick={() => void 0}
-            className="self-center hover:shadow-lg font-bold m-2"
+            className="hover:shadow-lg font-bold m-2"
             variant="primary"
             parallax
           >
@@ -28,7 +33,7 @@ export default function Home() {
           </Button>
           <Button
             onClick={() => void 0}
-            className="self-center hover:shadow-lg font-bold m-2"
+            className="hover:shadow-lg font-bold m-2"
             variant="secondary"
             parallax
           >
@@ -36,7 +41,7 @@ export default function Home() {
           </Button>
           <Button
             onClick={() => void 0}
-            className="self-center hover:shadow-lg font-bold m-2"
+            className="hover:shadow-lg font-bold m-2"
             variant="outline"
             parallax
           >
@@ -44,7 +49,7 @@ export default function Home() {
           </Button>
           <Button
             onClick={() => void 0}
-            className="self-center hover:shadow-lg font-bold m-2"
+            className="hover:shadow-lg font-bold m-2"
             variant="positive"
             parallax
           >
@@ -52,7 +57,7 @@ export default function Home() {
           </Button>
           <Button
             onClick={() => void 0}
-            className="self-center hover:shadow-lg font-bold m-2"
+            className="hover:shadow-lg font-bold m-2"
             variant="danger"
             parallax
           >
@@ -60,14 +65,14 @@ export default function Home() {
           </Button>
           <Button
             onClick={() => void 0}
-            className="self-center hover:shadow-lg font-bold m-2"
+            className="hover:shadow-lg font-bold m-2"
             variant="link"
           >
             Link
           </Button>
           <Button
             onClick={() => void 0}
-            className="self-center hover:shadow-lg font-bold m-2"
+            className="hover:shadow-lg font-bold m-2"
             variant="fancy"
             parallax
           >
