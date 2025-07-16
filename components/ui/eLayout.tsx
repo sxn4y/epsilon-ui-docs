@@ -129,7 +129,7 @@ const ESidebar: React.FC<SidebarProps> = ({
     <div
       className={`${
         side === "left" ? "border-e" : "border-s ml-auto"
-      } w-100 border-(--foreground)/30 bg-(--foreground)/4 opacity-0 p-4 epsilon-sublayout ${className}`}
+      } w-100 border-(--foreground)/30 bg-(--foreground)/4 p-4 epsilon-sublayout ${className}`}
     >
       {children}
     </div>
@@ -138,7 +138,7 @@ const ESidebar: React.FC<SidebarProps> = ({
 
 const EContentbar: React.FC<LayoutProps> = ({children, className}) => {
   return (
-    <div className="w-full overflow-x-hidden overflow-y-scroll opacity-0 p-4 epsilon-sublayout">
+    <div className="w-full overflow-x-hidden overflow-y-scroll p-4 epsilon-sublayout">
       {children}
     </div>
   );

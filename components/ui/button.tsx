@@ -95,7 +95,7 @@ const Button: React.FC<ButtonProps> = ({
       break;
     case "link":
       inBuiltClass =
-        "px-3 py-1.5 rounded-(--s2) text-(--foreground) outline-0 delay-25 transition-[background] transition-[text-decoration] underline-offset-4 hover:underline";
+        "px-3 py-1.5 rounded-(--s2) text-(--foreground) outline-0 delay-25 transition-[background] transition-[text-decoration] underline-offset-4 hover:underline hover:shadow-lg/20";
       break;
     case "fancy":
       inBuiltClass =

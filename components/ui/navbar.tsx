@@ -1,98 +1,123 @@
 "use client";
 
-import React, { ReactNode, useEffect, useRef } from "react";
-import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
+import React, { ReactNode, useState, useEffect } from "react";
+import "./epsilon.css";
+import Button from "./button";
 
-gsap.registerPlugin(ScrollTrigger);
-
-interface NavbarProps {
+interface NavBarProps {
   children?: ReactNode;
   className?: string;
-  reveal?: boolean;
-
-  duration?: number;
-  delay?: number;
-  once?: boolean;
-  opacity?: number;
-  scale?: number;
-  angle?: number;
-  threshold?: number;
-  distance?: number;
-  reverse?: boolean;
-  ease?: string;
-  direction?: "hor" | "ver";
-  stagger?: number;
-  staggerFrom?: "start" | "end" | "center";
+  brand?: ReactNode;
+  variant?: "primary" | "secondary" | "outline" | "fancy";
 }
 
-const Navbar: React.FC<NavbarProps> = ({
+interface NavItemProps {
+  children?: ReactNode;
+  className?: string;
+  href?: string;
+  active?: boolean;
+}
+
+const NavBar: React.FC<NavBarProps> = ({
   children,
   className = "",
-  reveal = false,
-
-  duration = 0.8,
-  delay = 0,
-  opacity = 0,
-  scale = 1,
-  angle = 0,
-  threshold = 0.1,
-  distance = 100,
-  reverse = false,
-  ease = "power3.out",
-  direction = "ver",
-  stagger = 0,
-  staggerFrom = "start",
+  brand,
+  variant = "primary",
 }) => {
-  const ref = useRef(null);
-  const axis = direction === "hor" ? "x" : "y";
-  const offset = reverse ? -distance : distance;
-  const rotation = reverse ? -angle : angle;
-  const percent = (1 - threshold) * 100;
+  const [isOpen, setIsOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    if (reveal) {
-      const el = document.querySelectorAll(
-        ".epsilon-layout .epsilon-sublayout"
-      );
-      if (!el) return;
-      let tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: el,
-          start: `top ${percent}%`,
-          end: `bottom +=50px`,
-        },
-      });
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
-      tl.set(el, {
-        [axis]: offset,
-        scale,
-        opacity: opacity,
-        rotate: rotation,
-      });
+  let inBuiltClass = "bg-(--foreground) text-(--background)";
 
-      tl.to(el, {
-        [axis]: 0,
-        scale: 1,
-        opacity: 1,
-        rotate: 0,
-        duration,
-        ease,
-        delay,
-        stagger: {
-          amount: stagger,
-          from: staggerFrom,
-        },
-      });
-    }
-  });
+  switch (variant) {
+    case "secondary":
+      inBuiltClass = "bg-(--foreground)/10 text-(--foreground)";
+      break;
+    case "outline":
+      inBuiltClass = "bg-(--foreground)/10 text-(--foreground) border-b border-(--foreground)/20";
+      break;
+    case "fancy":
+      inBuiltClass = "bg-linear-to-b from-(--foreground)/10 to-(--foreground)/6 text-(--foreground) border-b border-(--foreground)/20";
+      break;
+  }
+
   return (
-    <div
-      className={`w-full h-full overflow-hidden epsilon-layout flex flex-row ${className}`}
-    >
-      {children}
-    </div>
+    <nav className={`w-full ${inBuiltClass} ${className}`}>
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="flex items-center justify-between h-16">
+          <div className="flex-shrink-0">
+            {brand}
+          </div>
+          <div className={`hidden md:flex items-center space-x-4`}>
+            {children}
+          </div>
+          <div className="md:hidden">
+            <Button
+              onClick={() => setIsOpen(!isOpen)}
+              className="inline-flex items-center justify-center"
+              variant="outline"
+              parallax
+              tiltFactor={0}
+            >
+              <svg
+                className="h-6 w-6"
+                stroke="currentColor"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                {isOpen ? (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                ) : (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                )}
+              </svg>
+            </Button>
+          </div>
+        </div>
+
+        {/* Mobile Menu */}
+        <div className={`${isOpen ? 'block' : 'hidden'} md:hidden pb-4`}>
+          <div className="flex flex-col space-y-2">
+            {children}
+          </div>
+        </div>
+      </div>
+    </nav>
   );
 };
 
-export { Navbar };
+const NavItem: React.FC<NavItemProps> = ({
+  children,
+  className = "",
+  href = "#",
+  active = false,
+}) => {
+  return (
+    <a href={href}>
+      <Button variant="link">{children}</Button>
+    </a>
+  );
+};
+
+export { NavBar, NavItem };
