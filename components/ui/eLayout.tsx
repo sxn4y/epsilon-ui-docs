@@ -3,10 +3,11 @@
 import React, { ReactNode, useEffect, useRef } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
+import "./epsilon.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
-interface layoutProps {
+interface LayoutProps {
   children?: ReactNode;
   className?: string;
   reveal?: boolean;
@@ -26,19 +27,20 @@ interface layoutProps {
   staggerFrom?: "start" | "end" | "center";
 }
 
-interface sidebarProps {
+interface SidebarProps {
   children?: ReactNode;
   className?: string;
   side?: "left" | "right";
 }
 
-const ELayout: React.FC<layoutProps> = ({
+const ELayout: React.FC<LayoutProps> = ({
   children,
   className = "",
   reveal = false,
 
   duration = 0.8,
   delay = 0,
+  once = true,
   opacity = 0,
   scale = 1,
   angle = 0,
@@ -61,13 +63,33 @@ const ELayout: React.FC<layoutProps> = ({
       const el =
         document.querySelectorAll(".epsilon-layout .epsilon-sublayout");
       if (!el) return;
-      let tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: el,
-          start: `top ${percent}%`,
-          end: `bottom +=50px`,
-        },
-      });
+      let tl = once
+        ? gsap.timeline({
+            scrollTrigger: {
+              trigger: el,
+              start: `top ${percent}%`,
+              end: `bottom +=50px`,
+            },
+          })
+        : gsap.timeline({
+            scrollTrigger: {
+              trigger: el,
+              start: `top ${percent}%`,
+              end: `bottom +=50px`,
+              onEnter: () => {
+                tl.restart();
+              },
+              onLeave: () => {
+                tl.pause(0);
+              },
+              onEnterBack: () => {
+                tl.restart();
+              },
+              onLeaveBack: () => {
+                tl.pause(0);
+              },
+            },
+          });
 
       tl.set(el, {
         [axis]: offset,
@@ -98,7 +120,7 @@ const ELayout: React.FC<layoutProps> = ({
   );
 };
 
-const ESidebar: React.FC<sidebarProps> = ({
+const ESidebar: React.FC<SidebarProps> = ({
   children,
   className = "",
   side = "left",
@@ -114,9 +136,9 @@ const ESidebar: React.FC<sidebarProps> = ({
   );
 };
 
-const EContentbar: React.FC<layoutProps> = ({children, className}) => {
+const EContentbar: React.FC<LayoutProps> = ({children, className}) => {
   return (
-    <div className="w-full flex opacity-0 p-4 epsilon-sublayout">
+    <div className="w-full overflow-x-hidden overflow-y-scroll opacity-0 p-4 epsilon-sublayout">
       {children}
     </div>
   );

@@ -8,11 +8,22 @@ import { GoSearch } from "react-icons/go";
 
 export default function Home() {
   return (
-    <ELayout reveal={true} stagger={0.2} staggerFrom="end">
-      <ESidebar>
+    <ELayout reveal={true} stagger={0.2}>
+      <ESidebar className="shadow-lg/80">
         <form className="flex gap-2 items-start">
-          <TextBox variant="fancy" name="test" placeholder="Search..." />
-          <Button variant="fancy" className="" type="submit">
+          <TextBox
+            variant="fancy"
+            className="shadow-lg hover:shadow-lg/30"
+            name="test"
+            placeholder="Search..."
+          />
+          <Button
+            variant="fancy"
+            className="shadow-lg hover:shadow-lg/30"
+            parallax
+            tiltFactor={0}
+            type="submit"
+          >
             Submit
           </Button>
         </form>
@@ -21,7 +32,8 @@ export default function Home() {
         <SReveal
           delay={0.5}
           opacity={0}
-          className="flex flex-wrap items-center justify-center h-full w-full"
+          className="flex flex-wrap items-center justify-center h-screen w-full"
+          direction="hor"
         >
           <Button
             onClick={() => void 0}
