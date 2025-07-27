@@ -2,10 +2,8 @@
 
 import React, { ReactNode, useEffect } from "react";
 import "./epsilon.css";
-import { div } from "motion/react-client";
 
 export interface TextBoxProps {
-  children?: ReactNode;
   className?: string;
   parallax?: boolean;
   tiltFactor?: number;
@@ -31,7 +29,6 @@ export interface TextBoxProps {
 }
 
 const TextBox: React.FC<TextBoxProps> = ({
-  children,
   className = "",
   parallax = false,
   tiltFactor = 20,

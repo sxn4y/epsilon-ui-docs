@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ReactNode, useEffect, useRef } from "react";
+import React, { ReactNode, useEffect } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import "./epsilon.css";
@@ -52,7 +52,6 @@ const ELayout: React.FC<LayoutProps> = ({
   stagger = 0,
   staggerFrom = "start",
 }) => {
-  const ref = useRef(null);
   const axis = direction === "hor" ? "x" : "y";
   const offset = reverse ? -distance : distance;
   const rotation = reverse ? -angle : angle;
@@ -114,7 +113,7 @@ const ELayout: React.FC<LayoutProps> = ({
     }
   });
   return (
-    <div className={`w-full h-full overflow-hidden epsilon-layout flex flex-row ${className}`}>
+    <div className={`w-full h-full overflow-hidden epsilon-layout flex flex-col md:flex-row ${className}`}>
       {children}
     </div>
   );
@@ -128,8 +127,8 @@ const ESidebar: React.FC<SidebarProps> = ({
   return (
     <div
       className={`${
-        side === "left" ? "border-e" : "border-s ml-auto"
-      } w-100 border-(--foreground)/30 bg-(--foreground)/4 p-4 epsilon-sublayout ${className}`}
+        side === "left" ? "border-b md:border-e" : "border-t md:border-s md:ml-auto"
+      } w-full md:w-100 border-(--foreground)/30 bg-(--foreground)/4 p-4 epsilon-sublayout ${className}`}
     >
       {children}
     </div>
@@ -138,7 +137,7 @@ const ESidebar: React.FC<SidebarProps> = ({
 
 const EContentbar: React.FC<LayoutProps> = ({children, className}) => {
   return (
-    <div className="w-full overflow-x-hidden overflow-y-scroll p-4 epsilon-sublayout">
+    <div className={`w-full overflow-x-hidden overflow-y-scroll p-4 epsilon-sublayout ${className}`}>
       {children}
     </div>
   );
